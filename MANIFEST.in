@@ -1,0 +1,11 @@
+include .gitignore
+include README.md LICENSE LICENSE.fla LICENSE.lm-eval THIRD_PARTY_NOTICES.txt
+recursive-include assets *.png
+recursive-include configs *.json
+recursive-include benchmarks *.py *.md *.json *.cpp *.patch
+recursive-include tests *.py
+prune .cache
+prune results
+prune outputs
+prune data
+global-exclude __pycache__ *.py[cod] *.so

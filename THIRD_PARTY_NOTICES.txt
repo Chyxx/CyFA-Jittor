@@ -1,0 +1,20 @@
+CyFA-Jittor implements the Cyclic Flow Attention algorithm and adapts the
+chunkwise forward / adjoint structure and numerical conventions from:
+
+CyclicFlowAttention, Copyright (c) 2026 Yixiao Chen
+https://github.com/Chyxx/CyclicFlowAttention
+
+flash-linear-attention, Copyright (c) 2023-2026 Songlin Yang, Yu Zhang, Zhiyuan Li
+https://github.com/fla-org/flash-linear-attention
+Reference repository: https://github.com/fla-org/flash-linear-attention
+The corresponding MIT permission notice is included in LICENSE.fla.
+
+Jittor is a runtime dependency licensed under Apache-2.0:
+https://github.com/Jittor/jittor/blob/master/LICENSE.txt
+The Jittor framework source is not vendored here.
+
+CUDA and cuBLAS are external NVIDIA dependencies. They are not redistributed.
+The generated kernels in this package use Jittor code operators and native CUDA;
+they do not use Triton or Torch at runtime.
+
+Recall task prompt conventions follow CyclicFlowAttention/eval/vendor/lm_eval_prefix (EleutherAI, MIT; see LICENSE.lm-eval). The lm-evaluation-harness is an optional external evaluation dependency and is not vendored.

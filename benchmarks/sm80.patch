@@ -1,0 +1,30 @@
+diff --git a/fla/ops/cyfa/chunk.py b/fla/ops/cyfa/chunk.py
+index 582e9e8..bcee9d2 100644
+--- a/fla/ops/cyfa/chunk.py
++++ b/fla/ops/cyfa/chunk.py
+@@ -27,6 +27,7 @@ from fla.utils import (
+     autocast_custom_bwd,
+     autocast_custom_fwd,
+     autotune_cache_kwargs,
++    get_device_capability,
+     get_multiprocessor_count,
+     input_guard,
+ )
+@@ -564,6 +565,8 @@ def _scalar_decay_bwd_dqk_dv_single_k(
+     dg_force = torch.empty(bsz, seq_len, n_heads, device=q.device, dtype=torch.float32)
+     block_k = max(triton.next_power_of_2(d_k), 16)
+     is_hopper_fp32 = IS_NVIDIA_HOPPER and q.dtype == torch.float32
++    # avoid excessive register spilling in the SM80 BF16 pipeline
++    is_sm80_bf16 = q.dtype == torch.bfloat16 and d_k == 128 and d_v == 256 and get_device_capability(q.device.index) == (8, 0)
+     # Keep the fused FP32 kernel below the SM90 per-block shared-memory limit.
+     block_v = min(max(triton.next_power_of_2(d_v), 16), 32 if is_hopper_fp32 else 64)
+ 
+@@ -590,7 +593,7 @@ def _scalar_decay_bwd_dqk_dv_single_k(
+         BK=block_k,
+         BV=block_v,
+         num_warps=4,
+-        num_stages=1 if is_hopper_fp32 else 2,
++        num_stages=1 if is_hopper_fp32 or is_sm80_bf16 else 2,
+     )
+     return dq, dk, dv, dg_force
+ 

@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=79", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cyfa-jittor"
+version = "0.1.2"
+description = "Native Jittor training, inference and evaluation for Cyclic Flow Attention"
+readme = "README.md"
+requires-python = ">=3.10,<3.13"
+license = "MIT"
+license-files = ["LICENSE", "LICENSE.fla", "LICENSE.lm-eval", "THIRD_PARTY_NOTICES.txt"]
+authors = [{name = "Yixiao Chen"}, {name = "Shuojin Yang"}, {name = "Shi-Min Hu"}]
+dependencies = ["jittor==1.3.11.0", "numpy>=1.26,<2", "tokenizers>=0.21,<0.23", "huggingface-hub>=0.34,<2"]
+
+[project.urls]
+Homepage = "https://github.com/Chyxx/CyFA-Jittor"
+Repository = "https://github.com/Chyxx/CyFA-Jittor"
+Paper = "https://arxiv.org/abs/2609.36259"
+
+[project.optional-dependencies]
+train = ["datasets>=4,<5", "pyarrow==23.0.1"]
+eval = ["datasets>=4,<5", "pyarrow==23.0.1", "lm-eval==0.4.12"]
+dev = ["build>=1.2", "pytest>=8,<10", "ruff>=0.17,<0.18"]
+
+[tool.setuptools.packages.find]
+include = ["cyclic_flow_attention*", "training*", "eval*"]
+exclude = ["*.__pycache__*"]
+
+[tool.ruff.lint]
+select = ["F", "I"]
