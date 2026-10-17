@@ -122,36 +122,6 @@ The released checkpoints load directly through their model configuration and saf
 
 The checkpoints were pretrained with the original PyTorch implementation.
 
-### 400M evaluation
-
-Full evaluation of the released **CyFA-400M / 15B** checkpoint with Jittor on NVIDIA A100 GPUs, at a 2,048-token context and batch size 32. Paper values are from Table 2. Accuracy and recall scores are percentages; lower perplexity is better.
-
-| Task | Metric | Paper | Jittor |
-| --- | --- | ---: | ---: |
-| WikiText | PPL | 25.85 | 25.87 |
-| LAMBADA PPL | PPL | 48.17 | 48.26 |
-| ARC-Easy | acc | 45.92 | 45.79 |
-| ARC-Challenge | acc_norm | 24.06 | 24.23 |
-| HellaSwag | acc_norm | 36.84 | 36.84 |
-| LAMBADA accuracy | acc | 29.26 | 29.19 |
-| PIQA | acc | 65.29 | 65.29 |
-| WinoGrande | acc | 53.43 | 53.04 |
-| **Commonsense average** | | **42.47** | **42.40** |
-
-| Recall task | Paper | Jittor |
-| --- | ---: | ---: |
-| FDA | 42.60 | 42.33 |
-| SWDE | 35.61 | 35.52 |
-| SQuAD | 34.63 | 34.33 |
-| NQ | 17.33 | 17.42 |
-| TriviaQA | 48.70 | 48.46 |
-| DROP | 20.65 | 20.17 |
-| **Recall average** | **33.25** | **33.04** |
-
-Both evaluations are zero-shot and use the full evaluation splits. Recall uses greedy generation with up to 48 answer tokens and the original case-insensitive `contains` metric. After the original filters, FDA, SWDE, SQuAD, NQ, TriviaQA and DROP contain 1,101, 1,067, 2,977, 3,157, 1,688 and 2,087 examples, respectively. The evaluation commands and precision settings are described below.
-
-Checkpoint revision: `a351d32fe92a5353ba0deacffcbc8d0548c4d78d`. These results evaluate the original pretrained weights; training from scratch is documented separately.
-
 ## Installation
 
 Requirements: **Linux**, **Python 3.10–3.12**, **Jittor 1.3.11.0**, **CUDA 12.x with cuBLAS**, `g++`, and an **NVIDIA GPU with BF16 support (Ampere or newer)**.
